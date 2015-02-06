@@ -1,16 +1,23 @@
-"""`main` is the top level module for your Flask application."""
-
-# Import the Flask Framework
 from flask import Flask
+from flask.ext import restful
+
+
 app = Flask(__name__)
-# Note: We don't need to call run() since our application is embedded within
-# the App Engine WSGI application server.
+api = restful.Api(app)
 
 
-@app.route('/')
-def hello():
-    """Return a friendly HTTP greeting."""
-    return 'Hello World!'
+class HelloWorld(restful.Resource):
+    def get(self):
+        return {'hello': 'world'}
+
+
+api.add_resource(HelloWorld, '/')
+
+
+# @app.route('/')
+# def hello():
+#     """Return a friendly HTTP greeting."""
+#     return 'Hello World!'
 
 
 @app.errorhandler(404)
